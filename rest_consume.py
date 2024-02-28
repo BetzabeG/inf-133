@@ -18,4 +18,7 @@ print(response.text)
 #2. LA FORMA EN QUE SE ACCEDE AL SERVICIO
 
 #SOAP--> es un protocolo
-#REST-->es una arquitectura se comunica con json
+#REST-->es una arquitectura se comunica con json esta basada en http, usa metodos HTTP get, post, but
+#salio de una tesis doctorial
+
+# request ---> peticiones, requerimientos.

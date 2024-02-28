@@ -68,6 +68,8 @@ class RESTRequestHandler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(json.dumps({"Error": "Ruta no existente"}).encode('utf-8'))
             
+    
+            
 def run_server(port = 8000):
     try:
         server_address = ('', port)

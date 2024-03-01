@@ -6,7 +6,7 @@ estudiantes = [
         "id": 1,
         "nombre": "Pedrito",
         "apellido": "García",
-        "carrera": "Ingeniería de Sistemas",
+        "carrera": "Ingenieria de Sistemas",
     },
 ]
 
@@ -29,16 +29,13 @@ class RESTRequestHandler(BaseHTTPRequestHandler):
                 self.send_header("Content-type", "application/json")
                 self.end_headers()
                 self.wfile.write(json.dumps(estudiante).encode("utf-8"))
-        
+        #mostrar todas las carreras
         elif self.path == ("/carreras"):
-            from collections import defaultdict
-            contador = defaultdict(int)
-            for e in estudiantes:
-                contador[e['carrera']] += 1
+            carreras = set([e['carrera'] for e in estudiantes])
             self.send_response(200)
             self.send_header('Content-type', 'application/json')
             self.end_headers()
-            self.wfile.write(json.dumps(contador).encode('utf-8'))
+            self.wfile.write(json.dumps(list(carreras)).encode())
             
 
         else:

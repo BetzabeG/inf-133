@@ -53,8 +53,10 @@ print(filtrar_nombre_response.text)
 
 #GET mostrar todas las carreras
 mostrar_carrera = url + "carreras"
-contar_response = requests.get(mostrar_carrera)
-print(contar_response.text)
+mostrar= requests.request(method="GET", 
+                url=mostrar_carrera)
+print("ejercicio")
+print(mostrar.text)
 
 # PUT actualiza un estudiante por la ruta /estudiantes
 ruta_actualizar = url + "estudiantes"

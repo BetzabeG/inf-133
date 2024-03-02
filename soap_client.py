@@ -1,5 +1,6 @@
 from zeep import Client
 client = Client('http://localhost:8000')
+
 result = client.service.Saludar(nombre="Betzabe")
 print(result)
 
@@ -8,6 +9,6 @@ print(suma)
 
 cadena = "radar"
 resultado_palindromo = client.service.CadenaPalindromo(cadena=cadena)
-print(format(cadena, resultado_palindromo))
+print(cadena, resultado_palindromo)
 
 #Entrega por GIT HUB enlace repositorio a GitHub

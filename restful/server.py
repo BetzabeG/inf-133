@@ -8,6 +8,18 @@ estudiantes = [
         "apellido": "García",
         "carrera": "Ingenieria de Sistemas",
     },
+    {
+        "id": 2,
+        "nombre": "Sandra",
+        "apellido": "Torrez",
+        "carrera": "Economía",
+    },
+    {
+        "id": 3,
+        "nombre": "Jorge",
+        "apellido": "Salas",
+        "carrera": "Economía",
+    }
 ]
 
 
@@ -29,14 +41,21 @@ class RESTRequestHandler(BaseHTTPRequestHandler):
                 self.send_header("Content-type", "application/json")
                 self.end_headers()
                 self.wfile.write(json.dumps(estudiante).encode("utf-8"))
-        #mostrar todas las carreras
+        # mostrar todas las carreras ********
         elif self.path == ("/carreras"):
-            carreras = set([e['carrera'] for e in estudiantes])
+            carreras = set([estudiante['carrera'] for estudiante in estudiantes])
             self.send_response(200)
             self.send_header('Content-type', 'application/json')
             self.end_headers()
-            self.wfile.write(json.dumps(list(carreras)).encode())
+            self.wfile.write(json.dumps(list(carreras)).encode("utf-8"))
             
+        # Devuelva todos los estudiantes de la carrera de "Economia"
+        elif self.path == "/estudiantes_economia":
+            estudiantes_economia = [estudiante for estudiante in estudiantes if estudiante["carrera"] == "Economía"]
+            self.send_response(200)
+            self.send_header("Content-type", "application/json")
+            self.end_headers()
+            self.wfile.write(json.dumps(estudiantes_economia).encode("utf-8"))
 
         else:
             self.send_response(404)

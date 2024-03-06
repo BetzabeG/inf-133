@@ -75,6 +75,7 @@ class RESTRequestHandler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(json.dumps(estudiantes).encode("utf-8"))
 
+
         else:
             self.send_response(404)
             self.send_header("Content-type", "application/json")
@@ -130,3 +131,10 @@ def run_server(port=8000):
 
 if __name__ == "__main__":
     run_server()
+    
+'''
+el servidor esta logica, SOAP---> XML
+                         REST---> HTTP
+CLIENTE: 
+SERVIDOR: Se encarga de conectarno con el servidor y compartir informacion
+'''

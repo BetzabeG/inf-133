@@ -49,6 +49,33 @@ class RESTRequestHandler(BaseHTTPRequestHandler):
                     self.response_handler(200, estudiantes_filtrados)
                 else:
                     self.response_handler(204, [])
+                    
+            # ahora para buscar por apellidos
+            elif "apellido" in query_params:
+                apellido = query_params["apellido"][0]
+                estudiantes_filtrados = [
+                    estudiante
+                    for estudiante in estudiantes
+                    if estudiante["apellido"] == apellido
+                ]
+                if estudiantes_filtrados != []:
+                    self.response_handler(200, estudiantes_filtrados)
+                else:
+                    self.response_handler(204, [])
+            # bucar por carrera
+            elif "carrera" in query_params:  # Nueva condición para filtrar por carrera
+                carrera = query_params["carrera"][0]
+                estudiantes_filtrados = [
+                    estudiante
+                    for estudiante in estudiantes
+                    if estudiante["carrera"] == carrera
+                ]
+                if estudiantes_filtrados != []:
+                    self.response_handler(200, estudiantes_filtrados)
+                else:
+                    self.response_handler(204, [])
+            
+            
             else:
                 self.response_handler(200, estudiantes)
         elif self.path.startswith("/estudiantes/"):
@@ -106,3 +133,4 @@ def run_server(port=8000):
 
 if __name__ == "__main__":
     run_server()
+    

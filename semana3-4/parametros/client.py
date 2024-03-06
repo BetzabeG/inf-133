@@ -20,3 +20,12 @@ print(post_response.text)
 ruta_get = url + "estudiantes?nombre=Pedrito"
 get_response = requests.request(method="GET", url=ruta_get)
 print(get_response.text)
+
+#GET filtrando por apellido con query params
+ruta_get_apellido = url + "estudiantes?apellido=García"
+get_response_apellido = requests.request(method="GET", url=ruta_get_apellido)
+print(get_response_apellido.text)
+# GET filtrando por carrera con query params
+ruta_get_carrera = url + "estudiantes?carrera=Economia"
+get_response_carrera = requests.request(method="GET", url=ruta_get_carrera)
+print(get_response_carrera.text)

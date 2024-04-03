@@ -1,13 +1,15 @@
-#importamos mudulo de aqlite 3
+# Importar módulo sqlite3
 import sqlite3
-# Crear conexion a la base de datos
-conn = sqlite3.connect("institutos.db")
 
-#Insertamos nuevos estudiantes y carreras
+# Crear conexión a la base de datos
+conn = sqlite3.connect("instituto.db")
+
+# Insertamos nuevos estudiantes y carreras
+
 conn.execute(
     """
-    INSERT INTO ESTUDIANTES (nombre, apellido, fecha_nacimiento)
-    VALUES ('Carlos', 'Gomez'), '2001-02-10
+    INSERT INTO ESTUDIANTES (nombre, apellido, fecha_nacimiento) 
+    VALUES ('Carlos', 'Gomez', '2001-02-10')
     """
 )
 
@@ -30,7 +32,7 @@ cursor = conn.execute(
 )
 for row in cursor:
     print(row)
-    
+
 # MATRICULAS:
 # ('Juan', 'Perez', 'Ingeniería en Informática', '2024-01-15')
 # ('María', 'Lopez', 'Licenciatura en Administración', '2024-01-30')

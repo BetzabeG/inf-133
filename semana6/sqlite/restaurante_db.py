@@ -1,39 +1,43 @@
 import sqlite3
 conn = sqlite3.connect("restaurante.db")
 # Creamos la tabla de platos
-conn.execute(
+try :
+    conn.execute(
     """
-    CREATE TABLE PLATOS
-    (id INTEGER PRIMARY KEY,
+    CREATE TABLE PLATOS(
+    id INTEGER PRIMARY KEY,
     nombre TEXT NOT NULL,
-    precio INTEGER NOT NULL,
+    precio REAL NOT NULL,
     categoria TEXT NOT NULL);
     """
 )
+except sqlite3.OperationalError:
+    print("La tabla PLATOS ya existe")    
+
 
 # insertamos datos de platos
 conn.execute(
     """
     INSERT INTO PLATOS (nombre, precio, categoria)
-    VALUES ('Sajta', 20, 'Principal')
+    VALUES ('Pizza', 10.99, 'Italiana')
     """
 )
 conn.execute(
     """
     INSERT INTO PLATOS (nombre, precio, categoria)
-    VALUES ('Sopa de mani', 10, 'entrada')
+    VALUES ('Hamburguesa', 8.99, 'Americana')
     """
 )
 conn.execute(
     """
     INSERT INTO PLATOS (nombre, precio, categoria)
-    VALUES ('Ensalada Rusa', 25, 'entrada')
+    VALUES ('Sushi', 12.99, 'Japonesa')
     """
 )
 conn.execute(
     """
     INSERT INTO PLATOS (nombre, precio, categoria)
-    VALUES ('Ensalada de verduras', 20, 'Saludable')
+    VALUES ('Ensalada', 6.99, 'Vegetariana')
     """
 )
 #consultar datos de platos
@@ -42,45 +46,45 @@ cursor = conn.execute("SELECT * FROM PLATOS")
 for row in cursor:
     print(row)
     
-
-conn.execute(
+# crear tabla para mesas
+try:
+    conn.execute(
     """
     CREATE TABLE MESAS
     (id INTEGER PRIMARY KEY,
     numero INTEGER NOT NULL);
     """
 )
+except sqlite3.OperationalError:
+    print("La tabla MESAS ya existe")
+    
+
 # insertamos datos para las mesas
 conn.execute(
     """
     INSERT INTO MESAS (numero)
-    VALUES (12)
+    VALUES (1)
     """
 )
 conn.execute(
     """
     INSERT INTO MESAS (numero)
-    VALUES (6)
+    VALUES (2)
     """
 )
 conn.execute(
     """
     INSERT INTO MESAS (numero)
-    VALUES (10)
+    VALUES (3)
     """
 )
 conn.execute(
     """
     INSERT INTO MESAS (numero)
-    VALUES (24)
+    VALUES (4)
     """
 )
-conn.execute(
-    """
-    INSERT INTO MESAS (numero)
-    VALUES (48)
-    """
-)
+
 # Consulamos datos de las mesas
 print("\nMesas: ")
 cursor = conn.execute("SELECT * FROM MESAS")
@@ -88,11 +92,12 @@ for row in cursor:
     print(row)
 
 # Creamos la tabla de pedidos
-conn.execute(
+try:
+    conn.execute(
     """
     CREATE TABLE PEDIDOS
     (id INTEGER PRIMARY KEY,
-    plato_id INTEGER NOT NULLL,
+    plato_id INTEGER NOT NULL,
     mesa_id INTEGER NOT NULL,
     cantidad INTEGER NOT NULL,
     fecha DATE NOT NULL,
@@ -100,31 +105,35 @@ conn.execute(
     FOREIGN KEY (mesa_id) REFERENCES MESAS(id));
     """
 )
+except sqlite3.OperationalError:
+    print("La tabla CARRERAS ya existe")
+    
+
 # insertamos datos de los pedidos
 conn.execute(
     """
     INSERT INTO PEDIDOS (plato_id, mesa_id, cantidad, fecha)
-    VALUES (1, 4, 3, '2024-04-01')
+    VALUES (1, 2, 2, '2024-04-01')
     """
 )
 conn.execute(
     """
     INSERT INTO PEDIDOS (plato_id, mesa_id, cantidad, fecha)
-    VALUES (2, 3, 2, '2024-04-01')
-    """
-)
-
-conn.execute(
-    """
-    INSERT INTO PEDIDOS (plato_id, mesa_id, cantidad, fecha)
-    VALUES (3, 2, 4, '2024-04-01')
+    VALUES (2, 3, 1, '2024-04-01')
     """
 )
 
 conn.execute(
     """
     INSERT INTO PEDIDOS (plato_id, mesa_id, cantidad, fecha)
-    VALUES (4, 1, 1, '2024-04-01')
+    VALUES (3, 1, 3, '2024-04-01')
+    """
+)
+
+conn.execute(
+    """
+    INSERT INTO PEDIDOS (plato_id, mesa_id, cantidad, fecha)
+    VALUES (4, 4, 1, '2024-04-01')
     """
 )
 
@@ -140,3 +149,44 @@ cursor = conn.execute(
     )
 for row in cursor:
     print(row)
+    
+# Actualiza el precio del plato con id 2 (Hamburguesa) a 9.99
+conn.execute(
+    """
+    UPDATE PLATOS
+    SET precio = 9.99
+    WHERE id = 2
+    """
+)
+for row in cursor:
+    print(row)
+
+# Cambia la categoria del plato con id 3 (Sushi) a "Fusion"
+conn.execute(
+    """
+    UPDATE PLATOS
+    SET categoria = 'Fusion'
+    WHERE id = 3
+    """
+)
+for row in cursor:
+    print(row)
+    
+    
+# Elimina el pedido con id 3
+conn.execute(
+    """
+    DELETE FROM PEDIDOS
+    WHERE id = 3
+    """
+)
+for row in cursor:
+    print(row)
+    
+    
+#Confirmar cambios
+conn.commit()
+    
+# Cerrar conexion
+conn.close()
+

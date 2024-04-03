@@ -3,7 +3,8 @@ import sqlite3
 # Crear conexion a la base de datos
 conn = sqlite3.connect("instituto.db")
 # Crear tabla de carreras 
-conn.execute(
+try :
+    conn.execute(
     """
     CREATE TABLE CARRERAS
     (id INTEGER PRIMARY KEY,
@@ -11,6 +12,10 @@ conn.execute(
     duracion INTEGER NOT NULL);
     """
 )
+    
+except sqlite3.OperationalError:
+    print("La tabla CARRERAS ya existe")
+    
 
 #insertar datos de carreras
 conn.execute(
@@ -66,6 +71,7 @@ for row in cursor:
     
     
 # Crear tabla de matriculas
+
 conn.execute(
     """
     CREATE TABLE MATRICULAS
@@ -107,7 +113,7 @@ cursor = conn.execute(
     SELECT ESTUDIANTES.nombre, ESTUDIANTES.apellido, CARRERAS.nombre, MATRICULAS.fecha
     FROM MATRICULAS
     JOIN ESTUDIANTES ON MATRICULAS.estudiante_id = ESTUDIANTES.id
-    JOIN CARRERAS ON MATRICULAS.carreera_id = CARRERAS.id
+    JOIN CARRERAS ON MATRICULAS.carrera_id = CARRERAS.id
     """)
 for row in cursor:
     print(row)
@@ -133,17 +139,20 @@ conn.execute(
 for row in cursor:
     print(row)
     
-  
 # Eliminar
 conn.execute(
     """
     DELETE FROM MATRICULAS
-    WHERE id = 1
+    WHERE estudiante_id = 1
     """
 )  
 for row in cursor:
     print(row)
     
+#Confirmar cambios
+conn.commit()
+    
 # Cerrar conexion
 conn.close()
+
 
